@@ -18,7 +18,7 @@ namespace SeleniumTestProject
         [AssemblyInitialize]
         public static void SetUp(TestContext context)
         {
-            ChromeDriver driver = new ChromeDriver(); // startar en ny driver
+            driver = new ChromeDriver(); // startar en ny driver
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         }
 
@@ -34,7 +34,7 @@ namespace SeleniumTestProject
         public void Cleanup()
         {
             driver.Manage().Cookies.DeleteAllCookies(); // efter varje test
-            driver.Close();
+
         }
 
         [AssemblyCleanup]
@@ -75,11 +75,9 @@ namespace SeleniumTestProject
             IWebElement omfElement = driver.FindElement(By.XPath("/html/body/div[4]/div[3]/div[2]/div/div/div/div[2]/div/div/div/div[2]/p[4]/span[2]")); // hittar texten under omfattning
             Assert.AreEqual("1,5 år", omfElement.Text); // frågar om det stämmer att texten säger 1,5 år
 
-            driver.Close();
-
-            driver.Quit();
-
         }
+
+        [TestMethod]
         public void TestMethod2()
         {
 
@@ -108,10 +106,6 @@ namespace SeleniumTestProject
 
             IWebElement omfElement = driver.FindElement(By.XPath("/html/body/div[4]/div[3]/div[2]/div/div/div/div[2]/div/div/div/div[2]/p[4]/span[2]")); // hittar texten under omfattning
             Assert.AreEqual("3,5 år", omfElement.Text); // frågar om det stämmer att texten säger 1,5 år
-
-            driver.Close();
-
-            driver.Quit();
 
         }
     }
