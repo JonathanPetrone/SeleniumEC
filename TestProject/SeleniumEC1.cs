@@ -48,14 +48,16 @@ namespace SeleniumTestProject
         [TestMethod]
         public void TestMethod1()
         {
-
-            IWebElement utbElement = driver.FindElement(By.LinkText("Till utbildningarna")); // hittar länken "till utbildningarna"
-            utbElement.Click(); // klickar på länken "till utbildningarna"
-
-            IWebElement cookiesElement = driver.FindElement(By.LinkText("Tillåt alla cookies")); // hittar länken "tillåt alla cookies"
-            cookiesElement.Click(); // klickar på länken "tillåt alla cookies"
-
+            var landingPage = new LandingPage(driver);
+            var utbPage = new UtbPage(driver);
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver; // gör så att vi använder oss av JavaScriptExecutor
+
+            IWebElement tillutb = landingPage.utbElement();
+            tillutb.Click();
+
+            IWebElement cookiesElement = utbPage.cookiesButton(); // hittar länken "tillåt alla cookies"
+            cookiesElement.Click(); // klickar på länken "tillåt alla cookies"
+            
             js.ExecuteScript("window.scrollTo(0, 2000)"); // scrollar nedåt
 
             new WebDriverWait(driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@href='https://ecutbildning.se/utbildningar/mjukvarutestare/' and @class='card-link']"))); // en wait som låter oss vänta till elementet upptäcks
@@ -64,15 +66,16 @@ namespace SeleniumTestProject
             new WebDriverWait(driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@href='https://ecutbildning.se/utbildningar/mjukvarutestare/' and @class='card-link']"))); // en wait som låter oss vänta till elementet upptäcks
             js.ExecuteScript("window.scrollTo(0, 2000)"); // scrollar nedåt
 
-            IWebElement mvtElement = driver.FindElement(By.XPath("//*[@href='https://ecutbildning.se/utbildningar/mjukvarutestare/' and @class='card-link']")); // hittar länken till utbildningen
+            IWebElement mvtElement = utbPage.mvtCard();
             mvtElement.Click(); // klickar länken till utbildningen
 
-            IWebElement ortElement = driver.FindElement(By.CssSelector("#dropdownMenuLink > span")); // hittar CSS-selectorn med "välj en studieort"
-            ortElement.Click(); // klickar på den
-            IWebElement malmoElement = driver.FindElement(By.LinkText("Malmö")); // hittar "Malmö" i listan
+            IWebElement ortElement = utbPage.ortButton();
+            ortElement.Click(); // klickar på ort-knappen
+
+            IWebElement malmoElement = utbPage.malmoLnk();
             malmoElement.Click(); // klickar på Malmö
 
-            IWebElement omfElement = driver.FindElement(By.XPath("/html/body/div[4]/div[3]/div[2]/div/div/div/div[2]/div/div/div/div[2]/p[4]/span[2]")); // hittar texten under omfattning
+            IWebElement omfElement = utbPage.omfUtb();
             Assert.AreEqual("1,5 år", omfElement.Text); // frågar om det stämmer att texten säger 1,5 år
 
         }
@@ -81,13 +84,16 @@ namespace SeleniumTestProject
         public void TestMethod2()
         {
 
-            IWebElement utbElement = driver.FindElement(By.LinkText("Till utbildningarna")); // hittar länken "till utbildningarna"
-            utbElement.Click(); // klickar på länken "till utbildningarna"
+            var landingPage = new LandingPage(driver);
+            var utbPage = new UtbPage(driver);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver; // gör så att vi använder oss av JavaScriptExecutor
 
-            IWebElement cookiesElement = driver.FindElement(By.LinkText("Tillåt alla cookies")); // hittar länken "tillåt alla cookies"
+            IWebElement tillutb = landingPage.utbElement();
+            tillutb.Click();
+
+            IWebElement cookiesElement = utbPage.cookiesButton(); // hittar länken "tillåt alla cookies"
             cookiesElement.Click(); // klickar på länken "tillåt alla cookies"
 
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver; // gör så att vi använder oss av JavaScriptExecutor
             js.ExecuteScript("window.scrollTo(0, 2000)"); // scrollar nedåt
 
             new WebDriverWait(driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@href='https://ecutbildning.se/utbildningar/mjukvarutestare/' and @class='card-link']"))); // en wait som låter oss vänta till elementet upptäcks
@@ -96,17 +102,17 @@ namespace SeleniumTestProject
             new WebDriverWait(driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@href='https://ecutbildning.se/utbildningar/mjukvarutestare/' and @class='card-link']"))); // en wait som låter oss vänta till elementet upptäcks
             js.ExecuteScript("window.scrollTo(0, 2000)"); // scrollar nedåt
 
-            IWebElement mvtElement = driver.FindElement(By.XPath("//*[@href='https://ecutbildning.se/utbildningar/mjukvarutestare/' and @class='card-link']")); // hittar länken till utbildningen
+            IWebElement mvtElement = utbPage.mvtCard();
             mvtElement.Click(); // klickar länken till utbildningen
 
-            IWebElement ortElement = driver.FindElement(By.CssSelector("#dropdownMenuLink > span")); // hittar CSS-selectorn med "välj en studieort"
-            ortElement.Click(); // klickar på den
-            IWebElement malmoElement = driver.FindElement(By.LinkText("Malmö")); // hittar "Malmö" i listan
+            IWebElement ortElement = utbPage.ortButton();
+            ortElement.Click(); // klickar på ort-knappen
+
+            IWebElement malmoElement = utbPage.malmoLnk();
             malmoElement.Click(); // klickar på Malmö
 
-            IWebElement omfElement = driver.FindElement(By.XPath("/html/body/div[4]/div[3]/div[2]/div/div/div/div[2]/div/div/div/div[2]/p[4]/span[2]")); // hittar texten under omfattning
-            Assert.AreEqual("3,5 år", omfElement.Text); // frågar om det stämmer att texten säger 1,5 år
-
+            IWebElement omfElement = utbPage.omfUtb();
+            Assert.AreEqual("3,5 år", omfElement.Text); // frågar om det stämmer att texten säger 3,5 år
         }
     }
 }
