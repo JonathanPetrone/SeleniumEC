@@ -22,7 +22,7 @@ namespace SeleniumTestProject
         driver.Manage().Window.Maximize(); // maximerar Fönstret
         driver.Navigate().GoToUrl("http://ecutbildning.se"); // går till vår URL
 
-            IWebElement utbElement = driver.FindElement(By.LinkText("Till utbildningarna")); // hittar länken "till utbildningarna"
+            IWebElement utbElement = driver.FindElement(By.LinkText("Våra utbildningar")); // hittar länken "till utbildningarna"
             utbElement.Click(); // klickar på länken "till utbildningarna"
 
             IWebElement cookiesElement = driver.FindElement(By.LinkText("Tillåt alla cookies")); // hittar länken "tillåt alla cookies"
@@ -40,13 +40,15 @@ namespace SeleniumTestProject
             IWebElement mvtElement = driver.FindElement(By.XPath("//*[@href='https://ecutbildning.se/utbildningar/mjukvarutestare/' and @class='card-link']")); // hittar länken till utbildningen
             mvtElement.Click(); // klickar länken till utbildningen
 
-            IWebElement ortElement = driver.FindElement(By.CssSelector("#dropdownMenuLink > span")); // hittar CSS-selectorn med "välj en studieort"
-            ortElement.Click(); // klickar på den
-            IWebElement malmoElement = driver.FindElement(By.LinkText("Malmö")); // hittar "Malmö" i listan
-            malmoElement.Click(); // klickar på Malmö
+            js.ExecuteScript("window.scrollTo(0, 2000)"); // scrollar nedåt
 
-            IWebElement omfElement = driver.FindElement(By.XPath("/html/body/div[4]/div[3]/div[2]/div/div/div/div[2]/div/div/div/div[2]/p[4]/span[2]")); // hittar texten under omfattning
+            new WebDriverWait(driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id='page']/div[3]/div[4]/div/div/div/div[2]/div[2]/div/div/div/p[5]/span[2]"))); // en wait som låter oss vänta till elementet upptäcks
+
+            IWebElement omfElement = driver.FindElement(By.XPath("//*[@id='page']/div[3]/div[4]/div/div/div/div[2]/div[2]/div/div/div/p[5]/span[2]")); // hittar texten under omfattning
             Assert.AreEqual("1,5 år", omfElement.Text); // frågar om det stämmer att texten säger 1,5 år
+
+            IWebElement LIA = driver.FindElement(By.LinkText("LIA (lärande-i-arbete)")); // hittar länken "tillåt alla cookies"
+            LIA.Click(); // klickar på länken "tillåt alla cookies"
 
             driver.Close();
         
